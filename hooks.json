@@ -1,0 +1,96 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash {{SCRIPTS_DIR}}/detect-title-prefix.sh"
+          },
+          {
+            "type": "command",
+            "command": "[ -n \"$TMUX\" ] && tmux rename-window \"$(basename \"$(pwd)\")\" 2>/dev/null && tmux set-option -w automatic-rename off 2>/dev/null || true"
+          },
+          {
+            "type": "command",
+            "command": "bash {{SCRIPTS_DIR}}/alert-title.sh init"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash {{SCRIPTS_DIR}}/alert-title.sh stop"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash {{SCRIPTS_DIR}}/alert-title.sh permission"
+          }
+        ]
+      },
+      {
+        "matcher": "elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash {{SCRIPTS_DIR}}/alert-title.sh permission"
+          }
+        ]
+      },
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash {{SCRIPTS_DIR}}/alert-title.sh idle"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash {{SCRIPTS_DIR}}/alert-title.sh clear"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash {{SCRIPTS_DIR}}/alert-title.sh clear"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash {{SCRIPTS_DIR}}/alert-title.sh clear"
+          }
+        ]
+      }
+    ]
+  }
+}
