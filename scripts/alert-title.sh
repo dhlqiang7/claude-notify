@@ -153,11 +153,6 @@ alert_with_prefix() {
 restore_title() {
   local backup_file="${BACKUP_DIR}/backup_${TTY_SUFFIX}"
 
-  # tmux：恢复自动重命名
-  if [ -n "$TMUX" ]; then
-    tmux set-option -w automatic-rename on 2>/dev/null || true
-  fi
-
   if [ -f "$backup_file" ]; then
     local saved
     saved=$(cat "$backup_file")
