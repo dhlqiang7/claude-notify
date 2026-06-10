@@ -147,6 +147,8 @@ alert_with_prefix() {
   fi
 
   set_title "$new_title"
+  # 强制刷新 tmux 状态栏，避免 status-interval 延迟
+  [ -n "$TMUX" ] && tmux refresh-client -S 2>/dev/null || true
 }
 
 # ── 还原标题（由 clear 事件触发）──────────────────────────
@@ -164,6 +166,8 @@ restore_title() {
     # 非 tmux：直接用当前目录名还原
     set_title "$(basename "$(pwd)")"
   fi
+  # 强制刷新 tmux 状态栏
+  [ -n "$TMUX" ] && tmux refresh-client -S 2>/dev/null || true
 }
 
 # ── 主入口 ─────────────────────────────────────────────────
@@ -173,7 +177,7 @@ load_title_prefix
 
 case "$1" in
   permission)
-    is_rate_limited "permission" 10 && exit 0
+    is_rate_limited "permission" 2 && exit 0
     alert_with_prefix "🔔"
     send_bell
     send_osc9_notification "OpenClaude 需要确认" "工具执行需要你的授权"
